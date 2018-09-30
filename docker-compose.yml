@@ -1,0 +1,13 @@
+version: '2'
+services:
+  nginx:
+    build: ./.deploy/nginx
+    container_name: "nginx"
+    ports:
+      - "8080:80"
+    environment:
+      APP_HOST: "python"
+      APP_PORT: 5000
+  python:
+    build: .
+    container_name: "python"
