@@ -28,7 +28,9 @@ def get_image_urls(search_word):
     if "items" not in data:
         raise Exception('no images were found.')
 
-    return [item["link"] for item in data["items"]]
+    random_item = random.choice(data['items'])
+
+    return random_item['link']
 
 def build_message(url):
     """
@@ -44,13 +46,10 @@ def build_message(url):
 def slack_cat():
     try:
         # urlを複数取得する
-        urls = get_image_urls('cat')
+        url = get_image_urls('cat')
     except Exception as e:
         # urlが取得できなかった場合は投稿しない
         return jsonify({'text': e})
-
-    # urlをランダムに選択する
-    url = random.choice(urls)
 
     # slack用のメッセージを作成
     post_msg = build_message(url)
