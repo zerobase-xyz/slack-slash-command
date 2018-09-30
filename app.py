@@ -15,17 +15,22 @@ def get_image_urls(search_word):
     GOOGLE CUSTOM SEARCH APIからキーワードで画像のURLを取得する
     """
 
-    params = {'key': SEARCH_API_KEY, 'cx': ENGINE_ID, 'searchType': 'image', 'q': search_word}
+    params = {
+        'key': SEARCH_API_KEY,
+        'cx': ENGINE_ID,
+        'searchType': 'image',
+        'q': search_word
+    }
 
     response = requests.get(URL_TEMPLATE, params=params)
     data = response.json()
 
     if "items" not in data:
-        return []
+        raise Exception('no images were found.')
 
     return [item["link"] for item in data["items"]]
 
-def build_message(url, **kwargs):
+def build_message(url):
     """
     Slack用のメッセージを作成
     """
@@ -37,18 +42,12 @@ def build_message(url, **kwargs):
 
 @app.route('/cat', methods=['POST'])
 def slack_cat():
-    # Parse the parameters
-#    token = request.form.get('token', None)
-#    command = request.form.get('command', None)
-#    raw_text = request.form.get('text', None)
-#    response_url = request.form.get('response_url', None)
-
-    # urlを複数取得する
-    urls = get_image_urls('cat')
-
-    # urlが取得できなかった場合は投稿しない
-    if len(urls) == 0:
-        return jsonify({'text': "no images were found."})
+    try:
+        # urlを複数取得する
+        urls = get_image_urls('cat')
+    except Exception as e:
+        # urlが取得できなかった場合は投稿しない
+        return jsonify({'text': e})
 
     # urlをランダムに選択する
     url = random.choice(urls)
