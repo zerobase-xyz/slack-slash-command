@@ -42,12 +42,6 @@ def build_message(url):
 
 @app.route('/cat', methods=['POST'])
 def slack_cat():
-    # Parse the parameters
-#    token = request.form.get('token', None)
-#    command = request.form.get('command', None)
-#    raw_text = request.form.get('text', None)
-#    response_url = request.form.get('response_url', None)
-
     try:
         # urlを複数取得する
         urls = get_image_urls('cat')
