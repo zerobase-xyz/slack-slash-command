@@ -15,7 +15,12 @@ def get_image_urls(search_word):
     GOOGLE CUSTOM SEARCH APIからキーワードで画像のURLを取得する
     """
 
-    params = {'key': SEARCH_API_KEY, 'cx': ENGINE_ID, 'searchType': 'image', 'q': search_word}
+    params = {
+        'key': SEARCH_API_KEY,
+        'cx': ENGINE_ID,
+        'searchType': 'image',
+        'q': search_word
+    }
 
     response = requests.get(URL_TEMPLATE, params=params)
     data = response.json()
