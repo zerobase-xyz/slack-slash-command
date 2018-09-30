@@ -30,7 +30,7 @@ def get_image_urls(search_word):
 
     return [item["link"] for item in data["items"]]
 
-def build_message(url, **kwargs):
+def build_message(url):
     """
     Slack用のメッセージを作成
     """
