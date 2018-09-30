@@ -26,7 +26,7 @@ def get_image_urls(search_word):
     data = response.json()
 
     if "items" not in data:
-        return []
+        raise Exception('no images were found.')
 
     return [item["link"] for item in data["items"]]
 
@@ -48,12 +48,12 @@ def slack_cat():
 #    raw_text = request.form.get('text', None)
 #    response_url = request.form.get('response_url', None)
 
-    # urlを複数取得する
-    urls = get_image_urls('cat')
-
-    # urlが取得できなかった場合は投稿しない
-    if len(urls) == 0:
-        return jsonify({'text': "no images were found."})
+    try:
+        # urlを複数取得する
+        urls = get_image_urls('cat')
+    except Exception as e:
+        # urlが取得できなかった場合は投稿しない
+        return jsonify({'text': e})
 
     # urlをランダムに選択する
     url = random.choice(urls)
