@@ -10,7 +10,7 @@ SEARCH_API_KEY = os.environ.get("SEARCH_API_KEY")
 ENGINE_ID = os.environ.get("ENGINE_ID")
 URL_TEMPLATE = "https://www.googleapis.com/customsearch/v1"
 
-def get_image_urls(search_word):
+def get_image_url(search_word):
     """
     GOOGLE CUSTOM SEARCH APIからキーワードで画像のURLを取得する
     """
@@ -19,8 +19,6 @@ def get_image_urls(search_word):
         'key': SEARCH_API_KEY,
         'cx': ENGINE_ID,
         'searchType': 'image',
-        'q': search_word
-    }
 
     response = requests.get(URL_TEMPLATE, params=params)
     data = response.json()
@@ -46,7 +44,7 @@ def build_message(url):
 def slack_cat():
     try:
         # urlを複数取得する
-        url = get_image_urls('cat')
+        url = get_image_url('cat')
     except Exception as e:
         # urlが取得できなかった場合は投稿しない
         return jsonify({'text': e})
