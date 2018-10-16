@@ -19,6 +19,8 @@ def get_image_url(search_word):
         'key': SEARCH_API_KEY,
         'cx': ENGINE_ID,
         'searchType': 'image',
+        'q': search_word
+        }
 
     response = requests.get(URL_TEMPLATE, params=params)
     data = response.json()
